@@ -1,0 +1,114 @@
+#app {
+  background: purple;
+  width: 100vw;
+  height: 100vh;
+}
+
+#content-wrapper {
+  background: white;
+  width: 50%;
+  min-width: 400px;
+  height: 100%;
+  padding: 20px;
+  padding-bottom: 0px;
+}
+
+#content {
+  background: whitesmoke;
+  width: 100%;
+  max-height: 100%;
+  overflow-y: scroll;
+}
+
+#registration-form, #login-form {
+  padding: 7.5vh 2.5vw;
+  width: 95%;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+#registration-form-title, #login-form-title {
+  margin: 25px 0px;
+}
+
+#user-info {
+  margin-bottom: 10px;
+}
+
+#user-info input[type=text] {
+  width: 100%;
+  margin: 10px 0px;
+  border: 2px solid black;
+  padding: 15px;
+  font-size: 16px;
+}
+
+.user-info-error {
+  width: 100%;
+  padding: 5px 10px;
+  color: white;
+  font-weight: bold;
+}
+
+.user-info-error p {
+  margin: 0px;
+  font-size: 14px;
+}
+
+#register-btn, #login-page-btn, #login-btn {
+  width: 100%;
+  font-size: 18px;
+  border: 2px solid transparent;
+  border-radius: 7.5px;
+  font-weight: bold;
+  padding: 10px 30px;
+  background: purple;
+  color: white;
+}
+
+#register-btn, #login-btn {
+  margin-top: 30px;
+}
+
+#login-page-btn {
+  margin-bottom: 50px;
+}
+
+#login-page-btn-wrapper {
+  width: 85.5%;
+  margin: 0px 5%;
+}
+
+#gender-radio {
+  margin: 20px 0px;
+}
+
+#gender-radio input[type=radio] {
+  margin-right: 10px;
+}
+
+#gender-radio span {
+  margin-right: 20px;
+  font-size: 16px;
+}
+
+#user-info input[type=number] {
+  width: calc(33% - 20px);
+  margin: 10px 0px;
+  margin-right: 20px;
+  border: 2px solid black;
+  padding: 10px;
+  font-size: 16px;
+}
+
+#date {
+  margin: 15px 0px;
+}
+
+#logged-in {
+  text-align: center;
+  color: purple;
+}
