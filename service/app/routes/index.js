@@ -4,26 +4,6 @@ const userAction = require('../action/user.action');
 
 const register = async (req, res) => {
   try {
-    const validator = joi.object({
-      mobileNumber: joi.string().required(),
-      firstName: joi.string().required(),
-      lastName: joi.string().required(),
-      dateOfBirth: joi.string().required(),
-      gender: joi.string().valid('MALE', 'FEMALE').required(),
-      email: joi.string().required(),
-    });
-
-    const { error: validationError } = validator.validate(req.body);
-
-    if (validationError) {
-      const error = {
-        success: false,
-        message: result(validationError, 'details[0].message', 'Missing required parameter') + ' in request body',
-      }
-
-      return res.status(400).json(error);
-    };
-
     const {
       mobileNumber,
       firstName,
@@ -84,22 +64,6 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const validator = joi.object({
-      mobileNumber: joi.string().required(),
-      email: joi.string().required(),
-    });
-
-    const { error: validationError } = validator.validate(req.body);
-
-    if (validationError) {
-      const error = {
-        success: false,
-        message: result(validationError, 'details[0].message', 'Missing required parameter') + ' in request body',
-      }
-
-      return res.status(400).json(error);
-    };
-
     const {
       mobileNumber,
       email

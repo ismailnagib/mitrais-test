@@ -1,4 +1,6 @@
 import React from 'react';
+import Axios from 'axios';
+import config from './config';
 import './app.css';
 
 class App extends React.Component {
@@ -13,7 +15,7 @@ class App extends React.Component {
     email: '',
     emailError: '',
     month: '',
-    day: '',
+    date: '',
     year: '',
     infoErrorStyle: {
       marginTop: '10px',
@@ -44,7 +46,7 @@ class App extends React.Component {
     return true;
   }
 
-  registerUser = () => {
+  registerUser = async () => {
     let newState = {};
     let isError = false;
     let mobileNumber = this.state.mobileNumber > 1 ? String(this.state.mobileNumber * 1) : '';
@@ -88,11 +90,33 @@ class App extends React.Component {
       return null;
     }
 
-    // HIT API
-    const data = {
-      success: true,
-      message: 'Phone number / email has been registered before',
+    let data = {
+      success: false,
+      message: ''
     }
+
+    const parameter = {
+      mobileNumber: this.state.mobileNumber,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      dateOfBirth: this.state.year.length > 0 && this.state.month.length > 0 && this.state.date.length > 0
+        ? this.state.year + '-' + this.state.month + '-' + this.state.date
+        : null,
+      gender: this.state.gender.length > 0 ? this.state.gender : null,
+      email: this.state.email,
+    }
+
+    await Axios.request({
+      url: `${config.baseUrl}/register`,
+      method: 'POST',
+      data: parameter,
+    })
+      .then(response => {
+        data = response.data;
+      })
+      .catch(error => {
+        data = error.response.data;
+      });
 
     if (!data.success) {
       newState.registerError = data.message;
@@ -106,7 +130,7 @@ class App extends React.Component {
         gender: '',
         email: '',
         month: '',
-        day: '',
+        date: '',
         year: '',
         registerError: '',
       }
@@ -121,7 +145,7 @@ class App extends React.Component {
     })
   }
 
-  login = () => {
+  login = async () => {
     let isError = false;
     let newState = {};
     let mobileNumber = this.state.mobileNumber > 1 ? String(this.state.mobileNumber * 1) : '';
@@ -151,11 +175,27 @@ class App extends React.Component {
       return null;
     }
 
-    // HIT API
-    const data = {
-      success: true,
-      message: 'Wrong mobile number and/or email',
+    let data = {
+      success: false,
+      message: ''
     }
+
+    const parameter = {
+      mobileNumber: this.state.mobileNumber,
+      email: this.state.email,
+    }
+
+    await Axios.request({
+      url: `${config.baseUrl}/login`,
+      method: 'POST',
+      data: parameter,
+    })
+      .then(response => {
+        data = response.data;
+      })
+      .catch(error => {
+        data = error.response.data;
+      });
 
     if (!data.success) {
       newState.loginError = data.message;
@@ -224,6 +264,7 @@ class App extends React.Component {
                     onChange={(event) => { this.changeInputValue('lastName', event) }}
                   />
                   <div id="date">
+                    <p>Date of Birth</p>
                     <input
                       type="number"
                       min="1"
@@ -236,9 +277,9 @@ class App extends React.Component {
                       type="number"
                       min="1"
                       max="31"
-                      value={this.state.day}
-                      placeholder="Day"
-                      onChange={(event) => { this.changeInputValue('day', event, (value) => value === '' || (value >= 1 && value <= 31)) }}
+                      value={this.state.date}
+                      placeholder="Date"
+                      onChange={(event) => { this.changeInputValue('date', event, (value) => value === '' || (value >= 1 && value <= 31)) }}
                     />
                     <input
                       type="number"
@@ -291,7 +332,7 @@ class App extends React.Component {
               </div>
             }
             {
-              !this.state.loginPage && !this.state.loggedIn && <div id="login-page-btn-wrapper" className={this.state.disableRegisterForm ? '' : 'disabled'}>
+              !this.state.loginPage && !this.state.loggedIn && this.state.disableRegisterForm && <div id="login-page-btn-wrapper">
                 <button id="login-page-btn" onClick={() => { this.loginPage() }} >
                   Login
                 </button>
